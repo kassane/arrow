@@ -50,7 +50,7 @@ public template FileT(TStruct)
 	 *
 	 * Since: 0.13.0
 	 */
-	public bool isClosed()
+	public override bool isClosed()
 	{
 		return garrow_file_is_closed(getFileStruct()) != 0;
 	}

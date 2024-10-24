@@ -83,7 +83,7 @@ public class Schema : ObjectG
 	 *
 	 * Throws: GException on failure.
 	 */
-	public static Schema import(void* cAbiSchema)
+	public static Schema import_(void* cAbiSchema)
 	{
 		GError* err = null;
 
