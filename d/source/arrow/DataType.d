@@ -59,7 +59,7 @@ public class DataType : ObjectG
 	 *
 	 * Throws: GException on failure.
 	 */
-	public static DataType import(void* cAbiSchema)
+	public static DataType import_(void* cAbiSchema)
 	{
 		GError* err = null;
 

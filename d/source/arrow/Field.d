@@ -105,7 +105,7 @@ public class Field : ObjectG
 	 *
 	 * Throws: GException on failure.
 	 */
-	public static Field import(void* cAbiSchema)
+	public static Field import_(void* cAbiSchema)
 	{
 		GError* err = null;
 

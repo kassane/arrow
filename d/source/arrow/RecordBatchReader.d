@@ -93,7 +93,7 @@ public class RecordBatchReader : ObjectG
 	 *
 	 * Throws: GException on failure.
 	 */
-	public static RecordBatchReader import(void* cAbiArrayStream)
+	public static RecordBatchReader import_(void* cAbiArrayStream)
 	{
 		GError* err = null;
 

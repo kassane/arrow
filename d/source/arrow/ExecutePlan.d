@@ -67,7 +67,7 @@ public class ExecutePlan : ObjectG
 	{
 		GError* err = null;
 
-		auto __p = garrow_execute_plan_new(, &err);
+		auto __p = garrow_execute_plan_new(&err);
 
 		if (err !is null)
 		{

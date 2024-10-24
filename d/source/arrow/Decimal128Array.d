@@ -71,7 +71,7 @@ public class Decimal128Array : FixedSizeBinaryArray
 	 *
 	 * Since: 0.10.0
 	 */
-	public override Decimal128 getValue(long i)
+	public Decimal128 getValue(long i)
 	{
 		auto __p = garrow_decimal128_array_get_value(gArrowDecimal128Array, i);
 

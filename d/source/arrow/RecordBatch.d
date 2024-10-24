@@ -102,7 +102,7 @@ public class RecordBatch : ObjectG
 	 *
 	 * Throws: GException on failure.
 	 */
-	public static RecordBatch import(void* cAbiArray, Schema schema)
+	public static RecordBatch import_(void* cAbiArray, Schema schema)
 	{
 		GError* err = null;
 

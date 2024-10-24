@@ -71,7 +71,7 @@ public class Decimal256Array : FixedSizeBinaryArray
 	 *
 	 * Since: 3.0.0
 	 */
-	public override Decimal256 getValue(long i)
+	public Decimal256 getValue(long i)
 	{
 		auto __p = garrow_decimal256_array_get_value(gArrowDecimal256Array, i);
 

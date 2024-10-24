@@ -75,7 +75,7 @@ public class Array : ObjectG
 	 *
 	 * Throws: GException on failure.
 	 */
-	public static Array import(void* cAbiArray, DataType dataType)
+	public static Array import_(void* cAbiArray, DataType dataType)
 	{
 		GError* err = null;
 
