@@ -14,6 +14,7 @@ public class Decimal128Array : FixedSizeBinaryArray
 {
 	/** the main Gtk struct */
 	protected GArrowDecimal128Array* gArrowDecimal128Array;
+	alias getValue = FixedSizeBinaryArray.getValue;
 
 	/** Get the main Gtk struct */
 	public GArrowDecimal128Array* getDecimal128ArrayStruct(bool transferOwnership = false)

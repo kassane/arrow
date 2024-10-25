@@ -10,7 +10,7 @@ private import gobject.ObjectG;
 
 
 /** */
-public class LargeListArray : Array
+public class LargeListArray : ObjectG
 {
 	/** the main Gtk struct */
 	protected GArrowLargeListArray* gArrowLargeListArray;
@@ -35,7 +35,7 @@ public class LargeListArray : Array
 	public this (GArrowLargeListArray* gArrowLargeListArray, bool ownedRef = false)
 	{
 		this.gArrowLargeListArray = gArrowLargeListArray;
-		super(cast(GArrowArray*)gArrowLargeListArray, ownedRef);
+		super(cast(GObject*)gArrowLargeListArray, ownedRef);
 	}
 
 
@@ -135,7 +135,7 @@ public class LargeListArray : Array
 	 *
 	 * Since: 0.16.0
 	 */
-	public override DataType getValueType()
+	public DataType getValueType()
 	{
 		auto __p = garrow_large_list_array_get_value_type(gArrowLargeListArray);
 

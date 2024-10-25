@@ -12,6 +12,7 @@ private import gobject.ObjectG;
 /** */
 public class RankOptions : FunctionOptions
 {
+	alias equal = FunctionOptions.equal;
 	/** the main Gtk struct */
 	protected GArrowRankOptions* gArrowRankOptions;
 

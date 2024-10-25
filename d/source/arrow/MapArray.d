@@ -1,7 +1,6 @@
 module arrow.MapArray;
 
 private import arrow.Array;
-private import arrow.ListArray;
 private import arrow.c.functions;
 public  import arrow.c.types;
 private import glib.ConstructionException;
@@ -11,7 +10,7 @@ private import gobject.ObjectG;
 
 
 /** */
-public class MapArray : ListArray
+public class MapArray : ObjectG
 {
 	/** the main Gtk struct */
 	protected GArrowMapArray* gArrowMapArray;
@@ -36,7 +35,7 @@ public class MapArray : ListArray
 	public this (GArrowMapArray* gArrowMapArray, bool ownedRef = false)
 	{
 		this.gArrowMapArray = gArrowMapArray;
-		super(cast(GArrowListArray*)gArrowMapArray, ownedRef);
+		super(cast(GObject*)gArrowMapArray, ownedRef);
 	}
 
 

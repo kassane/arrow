@@ -3,7 +3,7 @@ module arrow.GIOOutputStream;
 private import arrow.OutputStream;
 private import arrow.c.functions;
 public  import arrow.c.types;
-private import gio.OutputStream;
+static import gio.OutputStream;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
 
@@ -54,7 +54,7 @@ public class GIOOutputStream : OutputStream
 	 */
 	public this(OutputStream gioOutputStream)
 	{
-		auto __p = garrow_gio_output_stream_new((gioOutputStream is null) ? null : gioOutputStream.getOutputStreamStruct());
+		auto __p = garrow_gio_output_stream_new((gioOutputStream is null) ? null : cast(GOutputStream*)gioOutputStream.getOutputStreamStruct());
 
 		if(__p is null)
 		{
@@ -82,6 +82,6 @@ public class GIOOutputStream : OutputStream
 			return null;
 		}
 
-		return ObjectG.getDObject!(OutputStream)(cast(GOutputStream*) __p);
+		return ObjectG.getDObject!(OutputStream)(cast(GArrowOutputStream*) __p);
 	}
 }

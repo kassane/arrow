@@ -53,7 +53,7 @@ env:
 
 jobs:
   docker:
-    name: AMD64 Ubuntu D 5.7
+    name: AMD64 Ubuntu D LDC2
     runs-on: ubuntu-latest
     if: ${{ !contains(github.event.pull_request.title, 'WIP') }}
     timeout-minutes: 15

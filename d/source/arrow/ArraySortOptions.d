@@ -12,6 +12,7 @@ public class ArraySortOptions : FunctionOptions
 {
 	/** the main Gtk struct */
 	protected GArrowArraySortOptions* gArrowArraySortOptions;
+	alias equal = FunctionOptions.equal;
 
 	/** Get the main Gtk struct */
 	public GArrowArraySortOptions* getArraySortOptionsStruct(bool transferOwnership = false)

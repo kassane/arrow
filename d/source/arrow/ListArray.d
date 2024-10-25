@@ -10,7 +10,7 @@ private import gobject.ObjectG;
 
 
 /** */
-public class ListArray : Array
+public class ListArray : ObjectG
 {
 	/** the main Gtk struct */
 	protected GArrowListArray* gArrowListArray;
@@ -35,7 +35,7 @@ public class ListArray : Array
 	public this (GArrowListArray* gArrowListArray, bool ownedRef = false)
 	{
 		this.gArrowListArray = gArrowListArray;
-		super(cast(GArrowArray*)gArrowListArray, ownedRef);
+		super(cast(GObject*)gArrowListArray, ownedRef);
 	}
 
 
@@ -131,7 +131,7 @@ public class ListArray : Array
 	/**
 	 * Returns: The data type of value in each list.
 	 */
-	public override DataType getValueType()
+	public DataType getValueType()
 	{
 		auto __p = garrow_list_array_get_value_type(gArrowListArray);
 
