@@ -1,11 +1,11 @@
 module d.build;
 
-import std.process;
-import std.stdio;
-import std.file;
-import std.path;
-import std.string;
-import std.array;
+import std.process : wait, spawnProcess, environment;
+import std.stdio : writeln;
+import std.file : isFile, exists, rmdirRecurse;
+import std.path : buildPath, absolutePath, pathSeparator;
+import std.string : capitalize, toLower, startsWith;
+import std.array : split, appender;
 import std.conv : to; // safe cast
 
 void main(string[] args) @safe
@@ -23,18 +23,18 @@ void main(string[] args) @safe
     }
 
     // Build Arrow C++
-    string cmakeExe = findProgram("cmake");
-    auto cppBuildDir = buildPath("cpp", "build");
+    immutable string cmakeExe = findProgram("cmake");
+    immutable string cppBuildDir = buildPath("cpp", "build");
     if (!exists(cppBuildDir))
     {
-        auto cmakeConfig = [
+        immutable string[] cmakeConfig = [
             cmakeExe,
             buildPath("..", "cpp"),
             "-DCMAKE_BUILD_TYPE=" ~ buildType.capitalize,
             // "-DARROW_DEPENDENCY_SOURCE=AUTO",
             "-DARROW_DEPENDENCY_SOURCE=SYSTEM",
             "-DARROW_PYTHON=ON",
-            "-DARROW_BUILD_TESTS=ON",
+            "-DARROW_BUILD_TESTS=OFF",
             "-DARROW_ALTIVEC=OFF",
             "-DCMAKE_INSTALL_PREFIX=\"/usr\"",
             "-DCMAKE_INSTALL_LIBDIR=\"lib\"",
@@ -58,7 +58,7 @@ void main(string[] args) @safe
             cppBuildDir
         ];
         writeln(cmakeConfig);
-        auto status = wait(spawnProcess(cmakeConfig));
+        immutable int status = wait(spawnProcess(cmakeConfig));
         if (status != 0)
         {
             rmdirRecurse(cppBuildDir);
@@ -69,12 +69,12 @@ void main(string[] args) @safe
     {
         import std.parallelism : totalCPUs;
 
-        auto cmakeBuild = [
+        immutable string[] cmakeBuild = [
             cmakeExe, "--build", cppBuildDir, "--parallel",
             totalCPUs.to!string
         ];
         writeln(cmakeBuild);
-        auto status = wait(spawnProcess(cmakeBuild));
+        immutable int status = wait(spawnProcess(cmakeBuild));
         if (status != 0)
         {
             rmdirRecurse(cppBuildDir);
@@ -83,21 +83,21 @@ void main(string[] args) @safe
     }
 
     // Build Arrow C GLib
-    auto cglibBuildDir = buildPath("c_glib.build");
-    auto cglibSourceDir = buildPath("..", "c_glib");
-    string mesonExe = findProgram("meson");
+    immutable string cglibBuildDir = buildPath("c_glib.build");
+    immutable string cglibSourceDir = buildPath("..", "c_glib");
+    immutable string mesonExe = findProgram("meson");
     if (!exists(cglibBuildDir))
     {
-        auto mesonSetup = [
+        immutable string[] mesonSetup = [
             mesonExe,
             "setup",
             cglibBuildDir,
             cglibSourceDir,
             fmt("--buildtype=%s", buildType.toLower),
-            fmt("-Darrow_cpp_build_dir=%s", cppBuildDir)
+            fmt("-Darrow_cpp_build_dir=%s", absolutePath(cppBuildDir)),
         ];
         writeln(mesonSetup);
-        auto status = wait(spawnProcess(mesonSetup));
+        immutable int status = wait(spawnProcess(mesonSetup));
         if (status != 0)
         {
             rmdirRecurse(cglibBuildDir);
@@ -107,9 +107,11 @@ void main(string[] args) @safe
 
     if (exists(cglibBuildDir))
     {
-        auto mesonBuild = [mesonExe, "compile", "-C", cglibBuildDir];
+        immutable string[] mesonBuild = [
+            mesonExe, "compile", "-C", cglibBuildDir
+        ];
         writeln(mesonBuild);
-        auto status = wait(spawnProcess(mesonBuild));
+        immutable int status = wait(spawnProcess(mesonBuild));
         if (status != 0)
         {
             rmdirRecurse(cglibBuildDir);
@@ -120,7 +122,7 @@ void main(string[] args) @safe
 
 string fmt(Args...)(string fmt, auto ref Args args) @safe
 {
-    import std.array, std.format;
+    import std.format : formattedWrite;
 
     auto app = appender!string();
     formattedWrite(app, fmt, args);
