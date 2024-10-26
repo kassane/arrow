@@ -20,6 +20,7 @@
 			]
 		}
 	},
+	"preBuildCommands": ["\"$DC\" -run build.d -- --build-type=Release"],
 	"dependencies": {
 		"glibd": {
 			"repository": "git+https://github.com/gtkd-developers/GlibD.git",
