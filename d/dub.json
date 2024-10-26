@@ -34,14 +34,15 @@
 				"source/package.d"
 			],
 			"lflags-posix": [
-				"-L$PACKAGE_DIR/../c_glib.build/arrow-glib"
+				"-L$PACKAGE_DIR/c_glib.build/arrow-glib"
 			],
 			"lflags-windows": [
-				"/LIBPATH:$PACKAGE_DIR\\..\\c_glib.build\\arrow-glib"
+				"/LIBPATH:$PACKAGE_DIR\\c_glib.build\\arrow-glib"
 			],
 			"libs": [
 				"arrow-glib"
 			],
+			"dflags-dmd": ["-verrors=context"],
 			"dflags-ldc": ["--verrors-context"]
 		}
 	]

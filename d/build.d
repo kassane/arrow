@@ -21,7 +21,11 @@ void main(string[] args) @safe
             buildType = arg["--build-type=".length .. $].toLower();
         }
     }
+    buildArrow(buildType);
+}
 
+void buildArrow(ref string buildType) @safe
+{
     // Build Arrow C++
     immutable string cmakeExe = findProgram("cmake");
     immutable string cppBuildDir = buildPath("cpp", "build");
@@ -81,7 +85,11 @@ void main(string[] args) @safe
             throw new Exception(fmt("CMake build failed with status: %s", status.to!string));
         }
     }
+    buildCGlib(buildType, cppBuildDir);
+}
 
+void buildCGlib(ref string buildType, inout string cppBuildDir) @safe
+{
     // Build Arrow C GLib
     immutable string cglibBuildDir = buildPath("c_glib.build");
     immutable string cglibSourceDir = buildPath("..", "c_glib");
@@ -117,6 +125,36 @@ void main(string[] args) @safe
             rmdirRecurse(cglibBuildDir);
             throw new Exception(fmt("Meson build failed with status: %s", status.to!string));
         }
+    }
+    immutable string[] girs = [
+        "arrow-glib", "Arrow-1.0.gir",
+        // "arrow-dataset-glib", "ArrowDataset-1.0.gir",
+        // "arrow-flight-glib", "ArrowFlight-1.0.gir"
+    ];
+    foreach (i; 0 .. girs.length / 2)
+    {
+        string subdir = girs[i * 2];
+        string gir = girs[i * 2 + 1];
+        if (exists(absolutePath(buildPath(cglibBuildDir, subdir, gir))))
+        {
+            runGir2D([
+                "-g", absolutePath(buildPath(cglibBuildDir, subdir)), "-i",
+                gir, "-o", "source",
+                "--use-runtime-linker"
+            ]);
+        }
+    }
+}
+
+void runGir2D(inout string[] flags) @safe
+{
+    immutable string dubExe = findProgram("dub");
+    string[] gir2d = [dubExe, "run", "girtod", "--"] ~ flags;
+    writeln(gir2d);
+    immutable int status = wait(spawnProcess(gir2d));
+    if (status != 0)
+    {
+        throw new Exception(fmt("Dub run failed with status: %s", status.to!string));
     }
 }
 
