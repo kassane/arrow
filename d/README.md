@@ -38,4 +38,6 @@ for currently available features.
 $ git clone https://github.com/apache/arrow.git
 $ cd arrow/d
 $ dub build -b release
+# Test
+$ dub test
 ```
